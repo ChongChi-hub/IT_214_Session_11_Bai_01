@@ -10,8 +10,8 @@
 Đã khởi tạo Bean `WebClient` dùng chung trong ứng dụng (tại `WebClientConfig.java`), có cấu hình tự động ngắt kết nối (`Timeout`) nếu sau 5 giây không nhận được phản hồi.
 
 ### 2.2. BUG-01: Ứng dụng chạy Tomcat thay vì Netty
-**Nguyên nhân:** File `pom.xml` có chứa thư viện `spring-boot-starter-webmvc`, dẫn đến Spring Boot tự động tải Tomcat lên thay thế cho Netty.
-**Cách xử lý:** Đã tiến hành gỡ bỏ dependency `spring-boot-starter-webmvc` ra khỏi `pom.xml`. Chỉ giữ lại `spring-boot-starter-webflux`. Ứng dụng giờ đây sẽ chạy trên máy chủ Netty (port 8080).
+**Nguyên nhân:** File `build.gradle` có chứa thư viện `spring-boot-starter-web` (hoặc `webmvc`), dẫn đến Spring Boot tự động tải Tomcat lên thay thế cho Netty.
+**Cách xử lý:** Đã tiến hành gỡ bỏ dependency `spring-boot-starter-web` ra khỏi `build.gradle`. Chỉ giữ lại `spring-boot-starter-webflux`. Ứng dụng giờ đây sẽ chạy trên máy chủ Netty (port 8080).
 
 ### 2.3. BUG-02: Cấu hình Serializer cho Kafka Value
 **Nguyên nhân:** Nếu sử dụng `StringSerializer` cho Value, việc truyền tải dữ liệu có cấu trúc phức tạp (Object Java) sẽ gặp khó khăn và phải chuyển đổi thủ công.
@@ -26,6 +26,6 @@ spring:
 
 ## 3. Hướng dẫn chạy
 ```bash
-./mvnw spring-boot:run
+./gradlew bootRun
 ```
 Ứng dụng sẽ khởi động Netty server ở port `8080` và sẵn sàng nhận request theo chuẩn Reactive.
